@@ -1,0 +1,24 @@
+### Listar todas as tarefas
+GET http://localhost:5039/usuarios/listar
+
+### Cadastrar uma nova tarefa
+POST http://localhost:5039/usuarios/cadastrar
+Content-Type: application/json
+
+{
+    "aluno" : "André",
+    "datanascimento" : "10/05/2001",
+}
+
+
+### Atualizar uma tarefa
+PUT http://localhost:5039/usuarios/alterar/6a8b3e4d-5e4e-4f7e-bdc9-9181e456ad0e
+
+### Alterar agenda
+PUT http://localhost:5039/usuarios/alterar/fe2b0a40-d1f5-478c-b906-2c0acfc2b2f1
+Content-Type: application/json
+
+{    
+    "aluno" : "José",
+    "datanascimento" : "18/01/2003",
+}
