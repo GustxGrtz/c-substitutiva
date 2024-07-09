@@ -1,0 +1,28 @@
+### Listar todas as tarefas
+GET http://localhost:5039/IMC/listar
+
+### Cadastrar uma nova tarefa
+POST http://localhost:5039/IMC/cadastrar
+Content-Type: application/json
+
+{
+    "icms" : "N/A",
+    "peso" : "70",
+    "altura" : "1.80",
+    "datacriacao" : "10/05/2015",
+}
+
+
+### Atualizar uma tarefa
+PUT http://localhost:5039/IMC/alterar/6a8b3e4d-5e4e-4f7e-bdc9-9181e456ad0e
+
+### Alterar agenda
+PUT http://localhost:5039/IMC/alterar/fe2b0a40-d1f5-478c-b906-2c0acfc2b2f1
+Content-Type: application/json
+
+{
+    "icms" : "N/A",
+    "peso" : "90",
+    "altura" : "1.70",
+    "datacriacao" : "21/05/2018",
+}

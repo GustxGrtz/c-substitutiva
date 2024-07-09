@@ -5,5 +5,6 @@ public class IMC
     public string? imcs { get; set; }
     public float? Peso { get; set; }
     public float? Altura { get; set; }
+    public string? DataCriacao { get; set; }
 
 }

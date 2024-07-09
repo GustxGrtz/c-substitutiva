@@ -62,13 +62,6 @@ app.MapPut("/usuarios/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRo
     return Results.Ok(ctx.Usuarios.ToList());
 });
 
-builder.Services.AddCors(options =>
-    options.AddPolicy("Acesso Total",
-        configs => configs
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod())
-);
 
 app.MapGet("IMC/listar{id}", ([FromServices] AppDataContext ctx) =>
 {
@@ -80,10 +73,38 @@ app.MapGet("IMC/listar{id}", ([FromServices] AppDataContext ctx) =>
 });
 
 
+// ENDPOINTS DE usuario
+//GET: http://localhost:5273/usuarios/listar
+// app.MapGet("/IMC/calcular/", ([FromServices] AppDataContext ctx) =>
+// {
+//     if (IMC < 18.5)
+//     {
+//         return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Normal").ToList());
+//     }
+//     if (IMC > 18.5 && IMC < 24.9)
+//     {
+//         return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Sobrepeso").ToList());
+//     }
+//     if (IMC > 25.0 && IMC < 29.9)
+//     {
+//         return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade").ToList());
+//     }
+//     if (IMC > 30.0 && IMC < 39.9)
+//     {
+//         return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade Grave").ToList());
+//     }
+//     if (IMC > 40.0)
+//     {
+//         return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade Grave").ToList());
+//     }
+
+//     return Results.NotFound("Nenhum imc encontrada");
+// });
+
 //POST: http://localhost:usuarios/cadastrar
 app.MapPost("IMC/cadastrar", ([FromServices] AppDataContext ctx, [FromBody] IMC imc) =>
 {
-    ctx.Usuarios.Add(imc);  
+    ctx.iMCs.Add(imc);
     ctx.SaveChanges();
     return Results.Created("", imc);
 });
@@ -94,42 +115,28 @@ app.MapPut("IMC/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] s
     IMC? imc = ctx.iMCs.Find(id);
     if (imc is null)
     {
-        return Results.NotFound("usuario não encontrado");
+        return Results.NotFound("IMC não calculado");
     }
     ctx.iMCs.Update(imc);
     ctx.SaveChanges();
     return Results.Ok(ctx.Usuarios.ToList());
 });
 
-// ENDPOINTS DE usuario
-//GET: http://localhost:5273/usuarios/listar
-app.MapGet("/IMC/calcular/", ([FromServices] AppDataContext ctx) =>
+
+
+app.MapPut("/usuarios/buscar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id, Usuario aluno) =>
 {
-    if (IMC < 18.5)
+    //Implementar a alteração do status do usuario
+    Usuario? usuarios = ctx.Usuarios.Find(aluno);
+    if (usuarios is null)
     {
-        return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Normal").ToList());
-    }
-    if (IMC > 18.5 && IMC < 24.9)
-    {
-        return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Sobrepeso").ToList());
-    }
-    if (IMC > 25.0 && IMC < 29.9)
-    {
-        return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade").ToList());
-    }
-    if (IMC > 30.0 && IMC < 39.9)
-    {
-        return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade Grave").ToList());
-    }
-    if (IMC > 40.0)
-    {
-        return Results.Ok(ctx.Usuarios.Where(x => x.Status == "Obesidade Grave").ToList());
+        return Results.NotFound("usuario não encontrada");
     }
 
-    return Results.NotFound("Nenhuma usuario encontrada");
+    ctx.Usuarios.Update(usuarios);
+    ctx.SaveChanges();
+    return Results.Ok(ctx.Usuarios.ToList());
 });
-
-
 
 app.UseCors("Acesso Total");
 
@@ -137,3 +144,5 @@ app.Run();
 
 
 //app run com retorno null?
+
+//nao achei o problema professor, complicado
